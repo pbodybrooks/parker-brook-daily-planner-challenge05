@@ -2,25 +2,41 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 
-// Display the date and time, refresh it every second.
-let dateTimeRefresh = setInterval(function () {
-  let unixTimestamp = dayjs().unix();
-  let dateTime = dayjs.unix(unixTimestamp).format('MMM D, YYYY, hh:mm:ss a');
-  let currentHour = dayjs.unix(unixTimestamp).format('hh a');
-  $('#currentDay').text(dateTime);
-  return currentHour
-}, 1000);
+
 
 // Globals
 //const  = document.querySelector()
+// create an array of the time blocks, 9AM to 5PM
+// let timeBlockContainer = $(".time-block");
+// console.log(timeBlockContainer[1]);
 
 $(document).ready(function () {
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
+  let timeBlockContainer = $(".time-block");
+
+  // Display the date and time, refresh it every second.
+  let dateTimeRefresh = setInterval(function() {
+    let unixTimestamp = dayjs().unix();
+    let dateTime = dayjs.unix(unixTimestamp).format('MMM D, YYYY, hh:mm:ss a');
+    $('#currentDay').text(dateTime);
+  }, 1000);
+
+  
+  // show current hour as a single 2-digit number in 24-hour time
+  $(".time-block").each(function() {
+    let unixTimestamp = dayjs().unix();
+    let currentHour = dayjs.unix(unixTimestamp).format('HH');
+    // grab time block time (via ID), then split it and return only the second word
+    let timeBlockHour = $(this).attr("id").split("-")[1];
+    // parse both hour variables so we can numerically compare them later
+    currentHour = parseInt(currentHour);
+    timeBlockHour = parseInt(timeBlockHour);
+    // console log to confirm both values are returned for each block
+    console.log("Current hour: " + currentHour + "   ||  Time Block hour: " + timeBlockHour);
+
+    // now use an if statement to compare current and time block hours which we will use to set the color
+  })
+
+
   
 
   $(".saveBtn").on("click",function () {
@@ -35,12 +51,13 @@ $(document).ready(function () {
     // set values into local storage
     localStorage.setItem(enteredTime, enteredEvent);
   })
-  //
+ 
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
+
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
