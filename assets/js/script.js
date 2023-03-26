@@ -22,9 +22,8 @@ $(document).ready(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   
-  
-  const saveButtonEl = document.querySelector("[aria-label='save']");
-  saveButtonEl.addEventListener("click",function () {
+
+  $(".saveBtn").on("click",function () {
     // per the hint, we want to grab the ID of the time block upon which save was clicked, which is the parent of the button
     let enteredTime = $(this).parent().attr("id");
     // console log it to confirm its been found
