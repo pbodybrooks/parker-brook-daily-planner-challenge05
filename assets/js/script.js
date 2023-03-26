@@ -1,13 +1,33 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-$(function () {
+
+
+let dateTimeRefresh = setInterval(function () {
+  let unixTimestamp = dayjs().unix();
+  let dateTime = dayjs.unix(unixTimestamp).format('MMM D, YYYY, hh:mm:ss a');
+  let currentHour = dayjs.unix(unixTimestamp).format('hh a');
+  $('#currentDay').text(dateTime);
+  return currentHour
+}, 1000);
+
+
+$(document).ready(function () {
+  // Globals
+  //const  = document.querySelector()
+  // Add date and time:
+  
+  
+
+  
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
   // function? How can DOM traversal be used to get the "hour-x" id of the
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
+  const saveButtonEl = document.querySelector("[aria-label='save']");
+  saveButtonEl.addEventListener("click",this.saveEvent);
   //
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
@@ -18,6 +38,10 @@ $(function () {
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
-  //
+
+  function saveEvent(){
+
+  }
+  
   // TODO: Add code to display the current date in the header of the page.
 });
