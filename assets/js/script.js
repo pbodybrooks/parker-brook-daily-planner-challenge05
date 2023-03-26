@@ -1,79 +1,76 @@
-
-// Globals
-//const  = document.querySelector()
-// create an array of the time blocks, 9AM to 5PM
-// let timeBlockContainer = $(".time-block");
-// console.log(timeBlockContainer[1]);
-
+// nothing will run until the the DOM is ready and the page is loaded
 $(document).ready(function () {
   let timeBlockContainer = $(".time-block");
 
-  // Display the date and time, refresh it every second.
+  // display the date and time, refresh it every second.
   let dateTimeRefresh = setInterval(function() {
+    // get the unix timestamp
     let unixTimestamp = dayjs().unix();
+    // use the unix timestamp to get the date and time in the shown format
     let dateTime = dayjs.unix(unixTimestamp).format('MMM D, YYYY, hh:mm:ss a');
+    // show the date and time on screen
     $('#currentDay').text(dateTime);
+    // re-run every 1000ms
   }, 1000);
 
   
-  // show current hour as a single 2-digit number in 24-hour time
+  // the below function will set the color of each time block according to whether it is in the past, present, or future
   $(".time-block").each(function() {
+    // same method as above to get unix timestamp
     let unixTimestamp = dayjs().unix();
+    // this time, i want the time as a simple 2-digit hour value in 24-hr time
     let currentHour = dayjs.unix(unixTimestamp).format('HH');
-    // grab time block time (via ID), then split it and return only the second word
+    // grab time block time (via ID), then split it by "-" and return only the second word ([1])
     let timeBlockHour = $(this).attr("id").split("-")[1];
-    // parse both hour variables so we can numerically compare them later
+    // parse both hour variables (currently strings) so i can numerically compare them later
     currentHour = parseInt(currentHour);
     timeBlockHour = parseInt(timeBlockHour);
     // console log to confirm both values are returned for each block
     console.log("Current hour: " + currentHour + "   ||  Time Block hour: " + timeBlockHour);
 
-    // now use an if statement to compare current and time block hours which we will use to set the color
+    // now use an if statement to compare current and time block hours which i will use to set the color
+    // add/remove the three classes depending on whether its the past/present/future
     if (timeBlockHour < currentHour){
-      $(this).addClass("past")
-      $(this).removeClass("present")
-      $(this).removeClass("future")
+      $(this).addClass("past");
+      $(this).removeClass("present");
+      $(this).removeClass("future");
+      // the save buttons for the past should be greyed out because no one is going to schedule something in the past...
+      $(this).children(".btn").removeClass("saveBtn");
+      $(this).children(".btn").addClass("saveBtnPast");
     }
     else if (timeBlockHour > currentHour){
-      $(this).addClass("future")
-      $(this).removeClass("present")
-      $(this).removeClass("past")
+      $(this).addClass("future");
+      $(this).removeClass("present");
+      $(this).removeClass("past");
     }
     else {
-      $(this).addClass("present")
-      $(this).removeClass("future")
-      $(this).removeClass("past")
+      $(this).addClass("present");
+      $(this).removeClass("future");
+      $(this).removeClass("past");
     }
   })
 
+  // loop through each of the time blocks, getting anything that was saved to local storage
+  $(".time-block").each(function() {
+    // set the value of each description field (child of each time block) from local storage using the id (ex. hour-9)
+    $(this).children(".description").val(localStorage.getItem($(this).attr("id")));
+  })
 
-  
-
-  $(".saveBtn").on("click",function () {
-    // per the hint, we want to grab the ID of the time block upon which save was clicked, which is the parent of the button
+  // here i have my function to listen for a click and run code that saves entries to local storage
+  $(".saveBtn").on("click", function () {
+    // per the hint, i want to grab the ID of the time block upon which 'save' was clicked, which is the parent of the button
     let enteredTime = $(this).parent().attr("id");
-    // console log it to confirm its been found
-    console.log(enteredTime);
-    // now we grab the text/event the user entered - the sibling of the button with class "description"
+    // now i grab the text/event the user entered - the sibling of the button with class "description"
     let enteredEvent = $(this).siblings(".description").val();
-    // console.log confirms both values we need are grabbed
-    console.log(enteredEvent);
+    // console.log confirms both values i need are grabbed
+    console.log("Entered time: " + enteredTime + "  ||  Entered event: " + enteredEvent);
     // set values into local storage
     localStorage.setItem(enteredTime, enteredEvent);
   })
- 
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-
-
-  
-  // TODO: Add code to display the current date in the header of the page.
 });
+
+// i wanted to be able to clear the schedule so this clears local storage and refreshes page
+$("#clearSchedule").on("click", function() {
+  localStorage.clear();
+  location.reload();
+})

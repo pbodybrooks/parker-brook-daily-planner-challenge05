@@ -3,6 +3,11 @@ body {
   font-size: 16px;
 }
 
+#currentDay{
+  font-size: 2vw;
+  font-weight: bold;
+}
+
 textarea {
   background: transparent;
   border: none;
@@ -53,7 +58,39 @@ textarea {
   color: white;
 }
 
+/* change the color of the save button in the past */
+.saveBtnPast {
+  border-left: 1px solid black;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: #a2cbd4;
+  color: white;
+}
+
 .saveBtn i:hover {
   font-size: 20px;
   transition: all 0.3s ease-in-out;
+}
+
+#center {
+  margin: auto;
+  width: 60%;
+  padding: 10px;
+}
+
+/* styling for clear schedule button */
+#clearSchedule{
+  background-color: rgb(255, 172, 172);
+  border: 5px solid red;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5vh;
+  width: 10vw;
+  height: 5vh;
+  font-size: 20px;
+}
+
+#clearSchedule:hover{
+  background-color: rgb(196, 124, 124);
 }
