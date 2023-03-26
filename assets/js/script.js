@@ -1,8 +1,3 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-
-
 
 // Globals
 //const  = document.querySelector()
@@ -34,6 +29,21 @@ $(document).ready(function () {
     console.log("Current hour: " + currentHour + "   ||  Time Block hour: " + timeBlockHour);
 
     // now use an if statement to compare current and time block hours which we will use to set the color
+    if (timeBlockHour < currentHour){
+      $(this).addClass("past")
+      $(this).removeClass("present")
+      $(this).removeClass("future")
+    }
+    else if (timeBlockHour > currentHour){
+      $(this).addClass("future")
+      $(this).removeClass("present")
+      $(this).removeClass("past")
+    }
+    else {
+      $(this).addClass("present")
+      $(this).removeClass("future")
+      $(this).removeClass("past")
+    }
   })
 
 
@@ -63,9 +73,7 @@ $(document).ready(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
 
-  function saveEvent(){
 
-  }
   
   // TODO: Add code to display the current date in the header of the page.
 });
