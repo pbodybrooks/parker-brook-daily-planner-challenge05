@@ -1,9 +1,7 @@
 // nothing will run until the the DOM is ready and the page is loaded
 $(document).ready(function () {
-  let timeBlockContainer = $(".time-block");
-
-  // display the date and time, refresh it every second.
-  let dateTimeRefresh = setInterval(function() {
+    // display the date and time, refresh it every second.
+  setInterval(function() {
     // get the unix timestamp
     let unixTimestamp = dayjs().unix();
     // use the unix timestamp to get the date and time in the shown format
@@ -13,7 +11,6 @@ $(document).ready(function () {
     // re-run every 1000ms
   }, 1000);
 
-  
   // the below function will set the color of each time block according to whether it is in the past, present, or future
   $(".time-block").each(function() {
     // same method as above to get unix timestamp
